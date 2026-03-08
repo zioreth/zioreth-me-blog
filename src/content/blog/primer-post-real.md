@@ -1,4 +1,3 @@
-md
 ---
 title: "Título de tu post"
 description: "Resumen corto del artículo"
@@ -22,4 +21,3 @@ Desarrolla tu argumento.
 
 Cierra con una conclusión o llamado a la acción.
 
-feat: nuevo post

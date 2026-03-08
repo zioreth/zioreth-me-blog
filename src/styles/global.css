@@ -203,9 +203,6 @@ h1,h2,h3,h4 { font-family: Outfit, system-ui, sans-serif; letter-spacing: -0.02e
 }
 .copy { margin-top: .8rem; font-size: .8rem; }
 .floating-cta{display:none}
-.consent-banner{position:fixed;left:12px;right:12px;bottom:12px;z-index:80;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:.55rem .65rem;display:flex;justify-content:space-between;align-items:center;gap:.7rem;font-size:.82rem}
-.consent-actions{display:flex;gap:.35rem}
-.consent-actions button{border:1px solid var(--line);background:transparent;color:var(--text);padding:.35rem .55rem;border-radius:3px;cursor:pointer}
 .subscribe-modal{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:90;display:grid;place-items:center;padding:1rem}
 .subscribe-modal[hidden]{display:none !important}
 .subscribe-card{width:min(420px,92vw);background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:1rem;position:relative}

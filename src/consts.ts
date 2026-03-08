@@ -1,7 +1,8 @@
 export const SITE_TITLE = 'zioreth';
 export const SITE_DESCRIPTION = 'Ideas y opinión sobre tecnología, internet y construcción de proyectos.';
 export const SITE_URL = 'https://zioreth.me';
-export const PLAUSIBLE_DOMAIN = 'zioreth.me';
+export const UMAMI_SCRIPT_URL = 'https://cloud.umami.is/script.js';
+export const UMAMI_WEBSITE_ID = 'b758f0b9-5f3f-4580-bb0e-d1c691985ae0';
 export const GISCUS_REPO = 'zioreth/zioreth-me-blog';
 export const GISCUS_REPO_ID = 'R_kgDORhwKsw';
 export const GISCUS_CATEGORY = 'General';

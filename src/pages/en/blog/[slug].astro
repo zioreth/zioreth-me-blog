@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { GISCUS_CATEGORY, GISCUS_CATEGORY_ID, GISCUS_REPO, GISCUS_REPO_ID } from '../../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.lang === 'en' && !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fmtDate = (d: Date) => {
+  const month = d.toLocaleDateString('en-US', { month: 'short' }).replace('.', '').toLowerCase();
+  const day = d.toLocaleDateString('en-US', { day: '2-digit' });
+  const year = d.toLocaleDateString('en-US', { year: 'numeric' });
+  return { month, day, year };
+};
+---
+<!doctype html>
+<html lang="en">
+  <head><BaseHead title={post.data.title} description={post.data.description} lang="en" /></head>
+  <body>
+    <Header />
+    <main>
+      <article class="prose-wrap">
+        <nav class="breadcrumbs"><a href="/en">Home</a> / <a href="/en/blog">The Archive</a></nav>
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-meta"><span class="chip chip-date">{fmtDate(post.data.pubDate).month} {fmtDate(post.data.pubDate).day} <span class="slash">/</span> {fmtDate(post.data.pubDate).year}</span><span class="taxonomy-dot">•</span><a class="chip" href={`/en/category/${post.data.category}/`}>{post.data.category}</a></p>
+        {post.data.tags?.length > 0 && <p class="tags-row">{post.data.tags.map((t) => <a class="chip" href={`/en/tag/${t}/`}>#{t}</a>)}</p>}
+        {post.data.heroImage && <Image src={post.data.heroImage} alt={post.data.title} width={1200} />}
+        <Content />
+        <div class="giscus-box">
+          <script src="https://giscus.app/client.js"
+            data-repo={GISCUS_REPO}
+            data-repo-id={GISCUS_REPO_ID}
+            data-category={GISCUS_CATEGORY}
+            data-category-id={GISCUS_CATEGORY_ID}
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="preferred_color_scheme"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+          </script>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

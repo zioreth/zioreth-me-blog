@@ -1,0 +1,20 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+<!doctype html>
+<html lang="es">
+  <head><BaseHead title="404 — No encontrado" description="Página no encontrada" lang="es" /></head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <h1>404</h1>
+        <p>Esta página no existe o fue movida.</p>
+        <p><a href="/" class="post-card" style="display:inline-flex;align-items:center;gap:.4rem;padding:.55rem .75rem;">Volver al inicio</a></p>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

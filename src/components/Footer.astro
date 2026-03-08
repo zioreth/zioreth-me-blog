@@ -1,0 +1,43 @@
+---
+const today = new Date();
+---
+<footer class="site-footer">
+  <p class="copy">© {today.getFullYear()} zioreth</p>
+</footer>
+<button class="floating-cta open-subscribe" type="button">Suscríbete</button>
+<div id="subscribe-modal" class="subscribe-modal" role="dialog" aria-modal="true" aria-label="Suscripción" hidden>
+  <div class="subscribe-card">
+    <button class="subscribe-close" type="button" aria-label="Cerrar">✕</button>
+    <h3>Suscríbete</h3>
+    <form class="modal-form" action="https://buttondown.email/api/emails/embed-subscribe/zioreth" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/zioreth', 'popupwindow')">
+      <input type="email" name="email" placeholder="tu@email.com" required />
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+</div>
+<div id="consent-banner" class="consent-banner" role="dialog" aria-live="polite">
+  <span>Usamos analítica anónima para mejorar la experiencia.</span>
+  <div class="consent-actions">
+    <button id="consent-accept">Aceptar</button>
+    <button id="consent-reject">Rechazar</button>
+  </div>
+</div>
+<script>
+  const key='zioreth-analytics-consent';
+  const banner=document.getElementById('consent-banner');
+  const set=(v)=>{localStorage.setItem(key,v); if(banner) banner.style.display='none'; if(v==='accepted') location.reload();};
+  const current=localStorage.getItem(key);
+  if(current){ if(banner) banner.style.display='none'; }
+  document.getElementById('consent-accept')?.addEventListener('click',()=>set('accepted'));
+  document.getElementById('consent-reject')?.addEventListener('click',()=>set('rejected'));
+
+  const modal=document.getElementById('subscribe-modal');
+  const close=document.querySelector('.subscribe-close');
+  document.querySelectorAll('.open-subscribe').forEach((el)=>{
+    el.addEventListener('click',()=>{ if(modal){ modal.hidden=false; } });
+  });
+  close?.addEventListener('click',()=>{ if(modal){ modal.hidden=true; } });
+  modal?.addEventListener('click',(e)=>{ if(e.target===modal){ modal.hidden=true; } });
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Escape' && modal && !modal.hidden){ modal.hidden=true; } });
+  document.querySelector('.modal-form')?.addEventListener('submit',()=>{ if(modal){ modal.hidden=true; } });
+</script>

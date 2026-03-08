@@ -1,0 +1,53 @@
+---
+import { SITE_TITLE } from '../consts';
+const pathname = Astro.url.pathname;
+const isEn = pathname.startsWith('/en');
+const home = isEn ? '/en' : '/';
+const blog = isEn ? '/en/blog' : '/blog';
+
+const switchLang = isEn ? pathname.replace(/^\/en/, '') || '/' : `/en${pathname === '/' ? '' : pathname}`;
+const isHome = pathname === home;
+const isBlog = pathname === blog || pathname.startsWith(`${blog}/`);
+---
+<header class="site-header">
+  <nav class="site-nav">
+    <a class="brand" href={home}>zioreth<span class="brand-dot">.</span>me</a>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <div class="nav-links" id="mobile-menu">
+      <a href={home} class={isHome ? 'active' : ''}><i class="bi bi-house-door nav-ico" aria-hidden="true"></i>{isEn ? 'The Beginning' : 'El Comienzo'}</a>
+      <a href={blog} class={isBlog ? 'active' : ''}><i class="bi bi-journal-text nav-ico" aria-hidden="true"></i>{isEn ? 'The Archive' : 'El Archivo'}</a>
+      <button class="nav-subscribe open-subscribe" type="button">Suscríbete</button>
+      <div class="menu-inline">
+        <a href={switchLang} class="lang"><i class="bi bi-translate nav-ico" aria-hidden="true"></i>{isEn ? 'ES' : 'EN'}</a>
+        <button id="theme-toggle" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill theme-ico"></i><span>Tema</span></button>
+      </div>
+    </div>
+  </nav>
+</header>
+<script>
+  const root = document.documentElement;
+  const key = 'zioreth-theme';
+  const saved = localStorage.getItem(key);
+  if (saved) root.dataset.theme = saved;
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    localStorage.setItem(key, next);
+  });
+  const menuBtn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => {
+    const opened = menu?.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', opened ? 'true' : 'false');
+    menuBtn.textContent = opened ? '✕' : '☰';
+  });
+  menu?.querySelectorAll('a').forEach((el) => {
+    el.addEventListener('click', () => {
+      menu.classList.remove('open');
+      if (menuBtn) {
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = '☰';
+      }
+    });
+  });
+</script>

@@ -1,20 +1,39 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: zioreth/zioreth-me-blog
   branch: main
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+# Activa este bloque cuando tengas tu OAuth proxy para GitHub.
+# base_url: https://TU-AUTH-SERVICE.com
+# auth_endpoint: auth
+
+# Habilita el modo local para pruebas con `npx decap-server`.
+local_backend: true
+
+media_folder: "src/assets/uploads"
+public_folder: "../../assets/uploads"
+
+publish_mode: editorial_workflow
+site_url: https://zioreth.me
+display_url: https://zioreth.me
+logo_url: /favicon.svg
 
 collections:
   - name: "blog"
     label: "Blog"
     folder: "src/content/blog"
     create: true
+    format: "frontmatter"
     slug: "{{slug}}"
+    extension: "md"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
-      - { label: "Language", name: "lang", widget: "select", options: ["es", "en"], default: "es" }
-      - { label: "Publish date", name: "pubDate", widget: "datetime" }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Descripción", name: "description", widget: "text" }
+      - { label: "Idioma", name: "lang", widget: "select", options: ["es", "en"], default: "es" }
+      - { label: "Categoría", name: "category", widget: "string", default: "general" }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - { label: "Fecha de publicación", name: "pubDate", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Fecha de actualización", name: "updatedDate", widget: "datetime", required: false, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Imagen principal", name: "heroImage", widget: "image", required: false, hint: "Se guardará en src/assets/uploads" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+      - { label: "Contenido", name: "body", widget: "markdown" }

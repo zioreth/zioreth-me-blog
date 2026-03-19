@@ -5,12 +5,20 @@
 2. Commit + push a `main`.
 3. GitHub Actions construye y despliega automáticamente a Hostinger.
 
-## Crear borrador rápido
+## Crear borrador rápido (CLI)
 ```bash
 ./scripts/new-post.sh mi-slug es estrategia audiencia,producto
 ```
 
-## Publicar post
+## Crear/editar post desde CMS (recomendado)
+1. Abre `/admin` en tu sitio (ej: `https://zioreth.me/admin`).
+2. Inicia sesión con GitHub.
+3. Crea o edita entradas desde la colección **Blog**.
+4. Usa **Save** para borrador y **Publish** para publicar.
+
+> Si estás en local: ejecuta `npx decap-server` y luego `npm run dev`.
+
+## Publicar post (manual)
 - En el frontmatter del post cambia:
   - `draft: true` -> `draft: false`
 - Haz commit/push.

@@ -1,58 +1,116 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-const posts = (await getCollection('blog', ({ data }) => data.lang === 'es' && !data.draft))
-  .sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 6);
-const fmtDate = (d: Date) => {
-  const month = d.toLocaleDateString('es-CO', { month: 'short' }).replace('.', '').toLowerCase();
-  const day = d.toLocaleDateString('es-CO', { day: '2-digit' });
-  const year = d.toLocaleDateString('es-CO', { year: 'numeric' });
-  return { month, day, year };
-};
+const links = [
+  { label: 'Blog', href: 'https://blog.zioreth.me' },
+  { label: 'YouTube', href: 'https://youtube.com/@zioreth' },
+  { label: 'X / Twitter', href: 'https://x.com/zioreth' },
+  { label: 'Instagram', href: 'https://instagram.com/zioreth' },
+  { label: 'GitHub', href: 'https://github.com/zioreth' },
+];
 ---
 <!doctype html>
 <html lang="es">
-  <head><BaseHead title={`${SITE_TITLE} — Blog`} description={SITE_DESCRIPTION} lang="es" /></head>
+  <head>
+    <BaseHead
+      title="Zio — Links"
+      description="Todos mis enlaces en un solo lugar."
+      lang="es"
+    />
+  </head>
   <body>
-    <Header />
-    <main>
-      <section class="hero" id="hero">
-        <h1>Ideas y opinión para <span class="accent">construir</span> en internet.</h1>
-        <p>Un blog personal sobre tecnología, producto, diseño y procesos. Escrito sin humo, con criterio y foco en lo útil.</p>
-      </section>
+    <main class="links-main">
+      <section class="links-card">
+        <img
+          class="avatar"
+          src="https://avatars.githubusercontent.com/u/411611523?v=4"
+          alt="Foto de Zio"
+          loading="lazy"
+          decoding="async"
+        />
+        <h1>Zio</h1>
+        <p class="bio">Creador digital · sistemas, ideas y proyectos en internet.</p>
 
-      <h2 class="section-title">Divagando...</h2>
-      <section class="posts-grid">
-        {posts.map((post) => (
-          <a class="post-card" href={`/blog/${post.id}/`}>
-            <div class="media-wrap">
-              {post.data.heroImage && <Image src={post.data.heroImage} alt={post.data.title} width={800} />}
-            </div>
-            <h3>{post.data.title}</h3>
-            <p class="card-taxonomy"><span class="chip chip-date">{fmtDate(post.data.pubDate).month} {fmtDate(post.data.pubDate).day} <span class="slash">/</span> {fmtDate(post.data.pubDate).year}</span><span class="taxonomy-dot">•</span><span class="chip">{post.data.category}</span></p>
-            <p>{post.data.description}</p>
-          </a>
-        ))}
+        <nav class="links-list" aria-label="Enlaces principales">
+          {links.map((link) => (
+            <a class="link-btn" href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </section>
     </main>
-    <Footer />
-    <script>
-      const hero = document.getElementById('hero');
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!reduced && hero) {
-        const onScroll = () => {
-          const y = Math.min(window.scrollY * 0.08, 24);
-          hero.style.setProperty('--hero-shift', `${y}px`);
-        };
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-      }
-    </script>
   </body>
 </html>
+
+<style>
+  :root {
+    --bg-a: #060b18;
+    --bg-b: #111827;
+    --card: #0f172acc;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --line: #263244;
+    --accent: #22d3ee;
+  }
+
+  .links-main {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: linear-gradient(180deg, var(--bg-a), var(--bg-b));
+  }
+
+  .links-card {
+    width: min(92vw, 460px);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+  }
+
+  h1 {
+    margin: 14px 0 6px;
+    color: var(--text);
+    font-size: 1.65rem;
+  }
+
+  .bio {
+    margin: 0 0 18px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .links-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .link-btn {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+    background: #152033;
+    border: 1px solid #2b3b52;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-weight: 600;
+    transition: all 0.18s ease;
+  }
+
+  .link-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+</style>
